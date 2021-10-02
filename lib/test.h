@@ -9,7 +9,7 @@ typedef uint32_t (*ExtractWindowsVersionPtr)(DWORD* major_version, DWORD* minor_
 uint32_t getWindowsVersion(DWORD* major_version, DWORD* minor_version, DWORD* build_number, char* output_buffer) {
 	HINSTANCE lib_instance;
 
-	lib_instance = LoadLibrary(TEXT("D:/secret/godll/build/godll.dll"));
+	lib_instance = LoadLibrary(TEXT("build/godll.dll"));
 	if (!lib_instance) {
 		return ERROR_FILE_NOT_FOUND;
 	}
@@ -30,9 +30,11 @@ uint32_t getWindowsVersion(DWORD* major_version, DWORD* minor_version, DWORD* bu
 
 	DWORD result = extractWindowsVersion(major_version, minor_version, build_number , &output_buffer);
 	if (result != ERROR_SUCCESS) {
-		FreeLibrary(lib_instance);
 		return result;
+		FreeLibrary(lib_instance);
 	}
+	
+	FreeLibrary(lib_instance);
 	
 	return ERROR_SUCCESS;
 

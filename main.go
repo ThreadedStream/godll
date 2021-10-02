@@ -14,10 +14,11 @@ func main() {
 	var ret = C.getWindowsVersion(&majorVersion, &minorVersion, &buildNumber, str)
 
 	if (int)(ret) == 0{
-		fmt.Printf("%d %d %d", (int) (majorVersion), (int) (minorVersion), (int) (buildNumber))
+		fmt.Printf("%d.%d.%d", (int) (majorVersion), (int) (minorVersion), (int) (buildNumber))
 	} else {
 		fmt.Printf("err_code: %d", (int) (ret))
 	}
 
+	// NOTE(threadedstream): free the memory allocated for a buffer
 	C.free(unsafe.Pointer(str))
 }

@@ -1,2 +1,2 @@
-build/
-CmakeSettings.json
+lib/build/
+lib/CMakeSettings.json
