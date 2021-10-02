@@ -13,3 +13,8 @@ First of all, you need to have mingw-w64 installed and added to the PATH. Once i
   go build main.go
   main.exe
 ```
+
+# Some extraneous details
+
+It took me about a day to get this whole stuff working. Most of the time was spent on preparing environment, i.e i don't use Windows on the regular basis, so 
+it turned out to be a bit painful endeavour. 
