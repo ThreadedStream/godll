@@ -9,14 +9,17 @@ import (
 )
 
 func main() {
-	var majorVersion, minorVersion, buildNumber C.DWORD
-	var str *C.char
-	var ret = C.getWindowsVersion(&majorVersion, &minorVersion, &buildNumber, str)
+	var (
+		majorVersion, minorVersion, buildNumber C.DWORD
+		str *C.char
+		ret = C.getWindowsVersion(&majorVersion, &minorVersion, &buildNumber, str)
+	)
+	var returnValue = (int) (ret)
 
-	if (int)(ret) == 0{
+	if returnValue == 0{
 		fmt.Printf("%d.%d.%d", (int) (majorVersion), (int) (minorVersion), (int) (buildNumber))
 	} else {
-		fmt.Printf("err_code: %d", (int) (ret))
+		fmt.Printf("error code: %d", returnValue)
 	}
 
 	// NOTE(threadedstream): free the memory allocated for a buffer
