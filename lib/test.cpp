@@ -1,14 +1,14 @@
 #include "test.h"
+#include <stdio.h>
 
 
-int main() {
-		
-	DWORD maj, min, build; char* buffer = nullptr;
-	getWindowsVersion(&maj, &min, &build, buffer);
 
-	free(buffer);
-	buffer = nullptr;
+int main(int argc, const char* argv[]) {
 
+    DWORD maj, min, build; char* buffer = nullptr;
+    const auto res = getWindowsVersion(&maj, &min, &build, &buffer);
 
-	return 0;
+    printf("%s", buffer);
+
+    return 0;
 }

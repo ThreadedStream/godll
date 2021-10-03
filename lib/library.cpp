@@ -19,10 +19,9 @@ uint32_t extractWindowsVersion(DWORD* major_version, DWORD* minor_version, DWORD
 	*build_number = build;
 	
 	sprintf(*buffer, "%d.%d.%d", *major_version, *minor_version, *build_number);
-		
+	
 	// null-terminate a buffer
 	*(*buffer + TEXT_LENGTH) = '0';
 
 	return ERROR_SUCCESS;
-
 }

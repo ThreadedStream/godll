@@ -1,6 +1,47 @@
 package main
 
-// #include "lib/test.h"
+// #cgo CFLAGS: -g -Wall
+//  #include <Windows.h>
+//  #include <stdint.h>
+//  #include <stdio.h>
+//
+//   typedef uint32_t (*ExtractWindowsVersionPtr)(DWORD* major_version, DWORD* minor_version, DWORD* build_number, char** buffer);
+//
+//   #define TEXT_LENGTH 8
+//
+//   uint32_t getWindowsVersion(DWORD* major_version, DWORD* minor_version, DWORD* build_number, char** output_buffer) {
+//       HINSTANCE lib_instance;
+//
+//       lib_instance = LoadLibrary(TEXT("build64\\Debug\\godll.dll"));
+//       if (!lib_instance) {
+//           return ERROR_FILE_NOT_FOUND;
+//       }
+//
+//       ExtractWindowsVersionPtr extractWindowsVersion = (ExtractWindowsVersionPtr)GetProcAddress(lib_instance, "extractWindowsVersion");
+//       if (!extractWindowsVersion) {
+//           FreeLibrary(lib_instance);
+//           return ERROR_PROC_NOT_FOUND;
+//       }
+//
+//       if (*output_buffer == NULL) {
+//           *output_buffer = (char*) (calloc(TEXT_LENGTH + 1, sizeof(char)));
+//           if (!(*output_buffer)) {
+//               FreeLibrary(lib_instance);
+//               return ERROR_OUTOFMEMORY;
+//           }
+//       }
+//
+//       DWORD result = extractWindowsVersion(major_version, minor_version, build_number , output_buffer);
+//       if (result != ERROR_SUCCESS) {
+//           FreeLibrary(lib_instance);
+//           return result;
+//       }
+//
+//       FreeLibrary(lib_instance);
+//
+//       return ERROR_SUCCESS;
+//
+//   }
 import "C"
 
 import (
@@ -12,14 +53,15 @@ func main() {
 	var (
 		majorVersion, minorVersion, buildNumber C.DWORD
 		str *C.char
-		ret = C.getWindowsVersion(&majorVersion, &minorVersion, &buildNumber, str)
+		ret = C.getWindowsVersion(&majorVersion, &minorVersion, &buildNumber, &str)
 	)
 	var returnValue = (int) (ret)
 
 	if returnValue == 0{
-		fmt.Printf("%d.%d.%d", (int) (majorVersion), (int) (minorVersion), (int) (buildNumber))
+		fmt.Printf("major: %d, minor: %d, build number: %d\n", (int) (majorVersion), (int) (minorVersion), (int) (buildNumber))
+		fmt.Printf("buffer: %s", C.GoString(str))
 	} else {
-		fmt.Printf("error code: %d", returnValue)
+		fmt.Printf("failed with error code: %d", returnValue)
 	}
 
 	// NOTE(threadedstream): free the memory allocated for a buffer
