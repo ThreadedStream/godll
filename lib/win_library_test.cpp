@@ -1,4 +1,3 @@
-#pragma once
 #include <Windows.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -6,6 +5,7 @@
 typedef uint32_t (*ExtractWindowsVersionPtr)(DWORD* major_version, DWORD* minor_version, DWORD* build_number, char** buffer);
 
 #define TEXT_LENGTH 8
+
 
 uint32_t getWindowsVersion(DWORD* major_version, DWORD* minor_version, DWORD* build_number, char** output_buffer) {
     HINSTANCE lib_instance;
@@ -40,4 +40,14 @@ uint32_t getWindowsVersion(DWORD* major_version, DWORD* minor_version, DWORD* bu
 
     return ERROR_SUCCESS;
 
+}
+
+int main(int argc, const char* argv[]) {
+
+    DWORD maj, min, build; char* buffer = nullptr;
+    const auto res = getWindowsVersion(&maj, &min, &build, &buffer);
+
+    printf("%s", buffer);
+
+    return 0;
 }
