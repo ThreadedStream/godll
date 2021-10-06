@@ -10,7 +10,16 @@
 #endif
 
 enum LinuxErrorCodes{
+    NO_ERR = 0,
     LIB_NOT_FOUND = -2,
     FUNC_NOT_FOUND = -3,
     OUT_OF_MEMORY = -4,
+};
+
+struct kernel_info_wrapper {
+   char *sysname;
+   char *nodename;
+   char *release;
+   char *version;
+   char *machine;
 };
