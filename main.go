@@ -65,5 +65,6 @@ func main() {
 	}
 
 	// NOTE(threadedstream): free the memory allocated for a buffer
+	// In case if str is nullptr, free won't do anything
 	C.free(unsafe.Pointer(str))
 }

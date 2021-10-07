@@ -1,6 +1,5 @@
-#include "library.h"
+#include "win_library.h"
 #include <cstdio>
-
 #define TEXT_LENGTH 8
 
 uint32_t extractWindowsVersion(DWORD* major_version, DWORD* minor_version, DWORD* build_number , char** buffer ) {
