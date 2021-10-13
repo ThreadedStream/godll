@@ -13,5 +13,6 @@ if (UNIX)
 else()
     add_library(godll SHARED win/win_library.cpp)
     add_executable(test win/win_library_test.cpp)
+	target_include_directories(test PUBLIC ${CMAKE_SOURCE_DIR}/shared)
 endif()
 

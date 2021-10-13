@@ -23,3 +23,34 @@ struct kernel_info_wrapper {
    char *version;
    char *machine;
 };
+
+#ifdef _WIN32
+static const char* getHumanReadableErrorDescription(const int32_t error) {
+	switch (error) {
+	case ERROR_FILE_NOT_FOUND:
+		return "file not found";
+	case ERROR_PROC_NOT_FOUND:
+		return "procedure not found";
+	case ERROR_OUTOFMEMORY:
+		return "out of memory";
+	case ERROR_SUCCESS:
+		return "success";
+	default:
+		return "unknown error";
+	}
+}
+#elif defined(__linux__)
+static const char* getHumanReadableErrorDescription(const int32_t error) {
+	switch (error) {
+        case LIB_NOT_FOUND:
+            return "library not found";
+        case FUNC_NOT_FOUND:
+            return "function not found";
+        case OUT_OF_MEMORY:
+            return "out of memory";
+        case NO_ERR:
+            return "success";
+        default:
+            return "unknown error";
+    }
+#endif

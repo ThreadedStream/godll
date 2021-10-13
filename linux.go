@@ -50,40 +50,41 @@ func main() {
         ret = C.getLinuxKernelInfo(&kernel_info_wrapper)
     )
     if ret != 0{
-       fmt.Printf("exited with error code: %d", ret)
+
+       fmt.Printf("failed to get linux kernel info, reason: %s", ret)
        C.free(unsafe.Pointer(kernel_info_wrapper))
        return
     }
 
-    // "sysname" dedicated block
+    // sysname's dedicated block
     var (
         sysNameSize     =   (int) (C._UTSNAME_SYSNAME_LENGTH)
         sysNamePtr      =   unsafe.Pointer(&kernel_info_wrapper.sysname[0])
         sysName []byte  =   convertCharArrToByteArr(sysNamePtr, sysNameSize)
     )
 
-    // "nodename" dedicated block
+    // nodename's dedicated block
     var (
         nodeNameSize    =   (int) (C._UTSNAME_NODENAME_LENGTH)
         nodeNamePtr     =   unsafe.Pointer(&kernel_info_wrapper.nodename[0])
         nodeName []byte =   convertCharArrToByteArr(nodeNamePtr, nodeNameSize)
     )
 
-    // "release" dedicated block
+    // release's dedicated block
     var (
         releaseSize     =   (int) (C._UTSNAME_RELEASE_LENGTH)
         releasePtr      =   unsafe.Pointer(&kernel_info_wrapper.release[0])
         release []byte  =   convertCharArrToByteArr(releasePtr, releaseSize)
     )
 
-    // "version" dedicated block
+    // version's dedicated block
     var (
         versionSize     =   (int) (C._UTSNAME_VERSION_LENGTH)
         versionPtr      =   unsafe.Pointer(&kernel_info_wrapper.version[0])
         version []byte  =   convertCharArrToByteArr(versionPtr, versionSize)
     )
 
-    // "machine" dedicated block
+    // machine's dedicated block
     var (
         machineSize     =   (int) (C._UTSNAME_MACHINE_LENGTH)
         machinePtr      =   unsafe.Pointer(&kernel_info_wrapper.machine[0])

@@ -4,6 +4,7 @@ package main
 //  #include <Windows.h>
 //  #include <stdint.h>
 //  #include <stdio.h>
+//  #include "lib/shared/defs.h"
 //
 //   typedef uint32_t (*ExtractWindowsVersionPtr)(DWORD* major_version, DWORD* minor_version, DWORD* build_number, char** buffer);
 //
@@ -12,7 +13,7 @@ package main
 //   uint32_t getWindowsVersion(DWORD* major_version, DWORD* minor_version, DWORD* build_number, char** output_buffer) {
 //       HINSTANCE lib_instance;
 //
-//       lib_instance = LoadLibrary(TEXT("build64\\Debug\\godll.dll"));
+//       lib_instance = LoadLibrary(TEXT("godll.dll"));
 //       if (!lib_instance) {
 //           return ERROR_FILE_NOT_FOUND;
 //       }
@@ -61,7 +62,8 @@ func main() {
 		fmt.Printf("major: %d, minor: %d, build number: %d\n", (int) (majorVersion), (int) (minorVersion), (int) (buildNumber))
 		fmt.Printf("buffer: %s", C.GoString(str))
 	} else {
-		fmt.Printf("failed with error code: %d", returnValue)
+	    var reason = C.getHumanReadableErrorDescription((C.int32_t) (ret))
+		fmt.Printf("failed to get windows version, reason: %s", C.GoString(reason))
 	}
 
 	// NOTE(threadedstream): free the memory allocated for a buffer

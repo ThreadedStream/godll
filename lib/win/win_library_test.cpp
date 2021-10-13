@@ -1,6 +1,7 @@
 #include <Windows.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <defs.h>
 
 typedef uint32_t (*ExtractWindowsVersionPtr)(DWORD* major_version, DWORD* minor_version, DWORD* build_number, char** buffer);
 
@@ -10,8 +11,7 @@ typedef uint32_t (*ExtractWindowsVersionPtr)(DWORD* major_version, DWORD* minor_
 uint32_t getWindowsVersion(DWORD* major_version, DWORD* minor_version, DWORD* build_number, char** output_buffer) {
     HINSTANCE lib_instance;
 
-    lib_instance = LoadLibrary(TEXT("D:\\toys\\godll\\build64\\Debug\\godll.dll"));
-    //printf("%x", &lib_instance);
+    lib_instance = LoadLibrary(TEXT("godll.dll"));
     if (!lib_instance) {
         return ERROR_FILE_NOT_FOUND;
     }
@@ -47,7 +47,19 @@ int main(int argc, const char* argv[]) {
     DWORD maj, min, build; char* buffer = nullptr;
     const auto res = getWindowsVersion(&maj, &min, &build, &buffer);
 
-    printf("%s", buffer);
+	if (!res) {
+		printf("%s", buffer);
+	}
+	else {
+		printf("failed to get windows version, here's an error description: %s", getHumanReadableErrorDescription(res));
+	}
+
+	free(buffer);
+	
+	
+	// dummy function call just to block main thread in order to 
+	// normally read the message
+	fgetc(stdin);
 
     return 0;
 }
